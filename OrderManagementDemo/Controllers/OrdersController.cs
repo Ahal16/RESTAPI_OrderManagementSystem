@@ -26,7 +26,7 @@ namespace OrderManagementDemo.Controllers
             var orders = await _repository.GetTblOrder();
             if (orders == null)
             {
-                return NotFound("No employees found");
+                return NotFound("No orders found");
             }
             return Ok(orders);
         }
@@ -65,7 +65,6 @@ namespace OrderManagementDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                //insert a new record and return as an object named employee
                 var neworder = await _repository.PostTblOrderReturnRecord(orderTable);
                 if (neworder != null)
                 {
@@ -87,7 +86,6 @@ namespace OrderManagementDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                //insert a new record and return as an object named employee
                 var newOrderId = await _repository.PostTblOrderReturnId(orderTable);
                 if (newOrderId != null)
                 {
@@ -132,7 +130,6 @@ namespace OrderManagementDemo.Controllers
 
                 if (result == null)
                 {
-                    //if result indicates failure or null
                     return NotFound(new
                     {
                         success = false,
