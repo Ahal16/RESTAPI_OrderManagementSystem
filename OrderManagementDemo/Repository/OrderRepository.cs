@@ -23,7 +23,7 @@ namespace OrderManagementDemo.Repository
                 {
                     return await _context.OrderTables.Include(order => order.Customer).Include(order => order.OrderItem).ToListAsync();
                 }
-                //Returns an empty list if context is null
+                
                 return new List<OrderTable>();
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace OrderManagementDemo.Repository
                                   }).ToListAsync();
 
                 }
-                //Returns an empty list if context is null
+              
                 return new List<CustOrderViewModel>();
             }
             catch (Exception ex)
@@ -94,7 +94,7 @@ namespace OrderManagementDemo.Repository
                 if (ordertable == null)
                 {
                     throw new ArgumentException(nameof(ordertable), "Order data is null");
-                    //return null;
+                   
                 }
                 if (_context == null)
                 {
@@ -155,26 +155,21 @@ namespace OrderManagementDemo.Repository
                 {
                     throw new InvalidOperationException("Database context is not initialized");
                 }
-                //Find the employee by id
                 var existingOrder = await _context.OrderTables.FindAsync(id);
                 if (existingOrder == null)
                 {
                     return null;
                 }
 
-                //Map values wit fields
                 existingOrder.OrderDate = orderTable.OrderDate;
                 existingOrder.CustomerId = orderTable.CustomerId;
                 existingOrder.OrderItemId = orderTable.OrderItemId;
 
-                //save changes to the database
                 await _context.SaveChangesAsync();
 
-                //Retreive the employee with the related Department
                 var OrderCustomerOI = await _context.OrderTables.Include(ord => ord.Customer).Include(ord => ord.OrderItem)
                     .FirstOrDefaultAsync(existingOrder => existingOrder.OrderId == orderTable.OrderId);
 
-                //Return the added employee record
                 return OrderCustomerOI;
             }
             catch (Exception ex)
@@ -201,7 +196,6 @@ namespace OrderManagementDemo.Repository
                     };
                 }
 
-                //Ensure the context is not null
                 if (_context == null)
                 {
                     return new JsonResult(new
@@ -213,8 +207,6 @@ namespace OrderManagementDemo.Repository
                         StatusCode = StatusCodes.Status500InternalServerError
                     };
                 }
-
-                //Find the employee by id
                 var existingOrder = _context.OrderTables.Find(id);
 
                 if (existingOrder == null)
@@ -228,10 +220,9 @@ namespace OrderManagementDemo.Repository
                         StatusCode = StatusCodes.Status400BadRequest
                     };
                 }
-                //Remove the employee record from the DBContext
+               
                 _context.OrderTables.Remove(existingOrder);
 
-                //save changes to the database
                 _context.SaveChangesAsync();
                 return new JsonResult(new
                 {
@@ -265,7 +256,7 @@ namespace OrderManagementDemo.Repository
                 {
                     return await _context.OrderItems.ToListAsync();
                 }
-                //Returns an empty list if context is null
+           
                 return new List<OrderItem>();
             }
             catch (Exception ex)
@@ -284,7 +275,7 @@ namespace OrderManagementDemo.Repository
                 {
                     return await _context.Customers.ToListAsync();
                 }
-                //Returns an empty list if context is null
+                
                 return new List<Customer>();
             }
             catch (Exception ex)
